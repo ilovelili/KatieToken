@@ -2,10 +2,11 @@
 require("dotenv").config()
 const Katie = artifacts.require('Katie');
 import { assert } from "chai"
+import { KatieInstance } from "../types/truffle-contracts";
 require("chai").use(require("chai-as-promised")).should();
 
-contract("Katie", (accounts) => {
-  let katie;
+contract("Katie", ([creator, ...accounts]) => {
+  let katie: KatieInstance;
 
   before(async () => {
     katie = await Katie.deployed();
@@ -15,19 +16,27 @@ contract("Katie", (accounts) => {
     it("deploys successfully", async () => {
       const address = katie.address;
       console.log(address);
-      assert.notEqual(address, "");
-      assert.notEqual(address, 0x0);
-      assert.notEqual(address, null);
+      assert.notEqual(address, "", "address is empty");
+      assert.notEqual(address, "0x0", "address is empty");
+      assert.notEqual(address, null, "address is empty");
     });
 
     it("has a name", async () => {
       const name = await katie.name();
-      assert.equal(name, "Katie");
+      assert.equal(name, "Katie", "name invalid");
     });
 
     it("has a symbol", async () => {
       const name = await katie.symbol();
-      assert.equal(name, "KATE");
+      assert.equal(name, "KATE", "symbol invalid");
     });
+
+    it("matches the creator", async () => {
+      const tokenId = 1;
+      const owner = await katie.ownerOf(tokenId);
+      console.log(`owner is ${owner}`);
+      console.log(`creator is ${creator}`);
+      assert.equal(owner, creator, "owner and creator mismatch")
+    })
   });
 })
