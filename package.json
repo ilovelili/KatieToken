@@ -17,8 +17,10 @@
     "ganache": "ganache-cli --quiet --networkId $npm_package_config_ganache_networkId --allowUnlimitedContractSize --gasLimit $npm_package_config_ganache_gasLimit --gasPrice $npm_package_config_ganache_gasPrice --mnemonic \"$MNEMONIC\"",
     "postinstall": "yarn compile && yarn generate-types",
     "clean": "rm -rf dest node_modules",
-    "test": "concurrently \"yarn ganache\" \"yarn compile && tsc && truffle test ./dest/*.test.js\"",
-    "deploy:testnet": "truffle deploy --network ropsten"
+    "test:local": "concurrently \"yarn ganache\" \"yarn compile && tsc && truffle test ./dest/*.test.js\"",
+    "test:testnet": "truffle test ./dest/*.test.js --network rinkeby",
+    "deploy:local": "concurrently \"yarn ganache\" \"truffle deploy\"",
+    "deploy:testnet": "truffle deploy --network rinkeby"
   },
   "config": {
     "ganache": {

@@ -8,16 +8,20 @@ module.exports = {
 			port: 8545,
 			network_id: "*",
 		},
-		ropsten: {
+		rinkeby: {
 			provider: () => {
 				return new HDWalletProvdier(process.env.MNEMONIC, process.env.INFURA_URI);
 			},
-			network_id: 3,
+			network_id: 4,
 		},
 	},
 	compilers: {
 		solc: {
 			version: "^0.6.0",
 		},
+	},
+	mocha: {
+		enableTimeouts: true,
+		timeout: 120000,
 	},
 };
